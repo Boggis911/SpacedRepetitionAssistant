@@ -1,0 +1,126 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Repetition GPT API",
+    "description": "API for managing spaced repetition items.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "URL",
+      "description": "Development server"
+    }
+  ],
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "cognitoOAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "URL",
+            "tokenUrl": "URL"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "cognitoOAuth2": []
+    }
+  ],
+  
+  "paths": {
+    "/create": {
+      "post": {
+        "operationId": "createRevisionItems",
+        "summary": "Create multiple revision items for spaced repetition.",
+        "security": [
+          {
+            "cognitoOAuth2": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemsArrObj": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "questionTextStr": {
+                          "type": "string",
+                          "description": "questionTextStr can be either a flashcard question or a revision item. Revision item is not a question, but a statement that describes what key points the user had learned."
+                        },
+                        "categoryStr": {
+                          "type": "string",
+                          "description": "The category of the question"
+                        },
+                        "topicStr": {
+                          "type": "string",
+                          "description": "The topic of the question"
+                        },
+                        "tagsArrStr": {
+                          "type": "array",
+                          "description": "Tags for the question",
+                          "items": {
+                            "type": "string",
+                            "description": "A single tag"
+                          }
+                        }
+                      },
+                      "required": ["questionTextStr", "categoryStr", "topicStr", "tagsArrStr"]
+                    }
+                  }
+                },
+                "required": ["itemsArrObj"],
+                "example": {
+                  "itemsArrObj": [
+                    {
+                      "questionTextStr": "What is the capital of France?",
+                      "categoryStr": "Geography",
+                      "topicStr": "European Capitals",
+                      "tagsArrStr": ["capital", "France", "Europe"]
+                    },
+                    {
+                      "questionTextStr": "The user learned the differences in X86_64 and arm_64 lambda architectures: arm_64 is more cost-effective, X86_64 is more universal and better at computationally intensive tasks.",
+                      "categoryStr": "Technology",
+                      "topicStr": "AWS",
+                      "tagsArrStr": ["Lambda", "Lambda architecture"]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "The 200 status code indicates successful server response."
+                    },
+                    "nextReviewDate": {
+                      "type": "string",
+                      "description": "The date for the next review, which is 'Tomorrow' in this case."
+                    }
+                  },
+                  "required": ["message", "nextReviewDate"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
