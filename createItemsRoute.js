@@ -1,5 +1,4 @@
-// createMultipleRevisionItems
-// index.mjs
+
 
 import { createRevisionItems } from "./databaseServices.mjs";
 import { invokeUserActivityTrackerAsync } from "./analyticsInvoker.mjs";
