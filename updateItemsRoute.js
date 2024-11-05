@@ -1,5 +1,3 @@
-// repetitionGPTUpdateMultipleRevisionitems
-// index.mjs
 
 import { processItemsInParallel } from './dataFlowManager.mjs';
 import { invokeUserActivityTrackerAsync } from "./analyticsInvoker.mjs";
